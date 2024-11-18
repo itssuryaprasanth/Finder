@@ -31,7 +31,6 @@ class className(LocatorFactory):
         self.attr = attributes
 
     def build_locator(self) -> dict:
-        #pdb.set_trace()
         data = {'tag': 'button',
                 'attributes': {'id': 'truste-consent-required', 'type': 'button', 'class': ['truste-button3']}}
         try:

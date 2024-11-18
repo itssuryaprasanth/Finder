@@ -38,7 +38,6 @@ class FinderMainScreen(tk.Tk):
         self.url_input_box.place(x=75, y=120)
 
     def display_tree(self, data_set):
-        pdb.set_trace()
         if isinstance(data_set, list) and len(data_set) != 0:
             df = pd.DataFrame(data_set).dropna(how='all')
             df = df.map(lambda x: ', '.join(x) if isinstance(x, list) else x)
@@ -72,13 +71,9 @@ class FinderMainScreen(tk.Tk):
         else:
             msgbox.showerror(title="Error", message="Unable to create session, retry after sometime.")
             sys.exit(1)
-        print("Rendering the response")
         sh.render_response(response, self)
-        print("Parsing the HTML")
         sh.parser_html(response, self)
-        print("Gathering all attributes")
         dataset = sh.find_key_value_pair(self)
-        print("Building the locators")
         locators = CreateLocator(dataset).mapper()
         self.display_tree(locators)
 

@@ -1,4 +1,4 @@
-import pdb
+import pdb as pd
 import sys
 import time
 import tkinter as tk
@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 from structure.org_describe import org_describe
 import logging
 
+logging.basicConfig(level = logging.INFO)
 logger = logging.getLogger(__name__)
 
 
@@ -15,7 +16,7 @@ class ScraperHTML:
 
     def __init__(self, url):
         # Start a session
-        print("Initating the session")
+        logger.info("Initiating the session")
         self.session = HTMLSession()
         self.url: str = url
         self.org_desc = org_describe
@@ -24,38 +25,49 @@ class ScraperHTML:
     def get_session(self):
         response = None
         try:
+            logger.info("getting the session with the url {}".format(self.url))
             response = self.session.get(self.url)
         finally:
             return response
 
     def render_response(self, response, tk_instance) -> int:
         try:
-            second_label = tk.Label(tk_instance, text="Wait for HTML to Render")
+            second_label = tk.Label(tk_instance, text="Wait for HTML to Render...")
             second_label.place(x=100, y=250)
-            response.html.render(sleep=2, timeout=60)
-            second_label.destroy()
-        except:
+            if response is not None:
+                response.html.render(sleep=2, timeout=60)
+                second_label.destroy()
+                logger.info("Rendered successfully")
+            else:
+                logger.info("Rendering Failed")
+                from tkinter import messagebox as msgbox
+                msgbox.showerror(message="Rendering Failed..")
+                sys.exit(1)
+        except Exception as e:
+            logger.error("Rendering Failed with an error.. {}".format(e))
             return 0
 
     def parser_html(self, response, tk_instance) -> None:
-        third_label = tk.Label(tk_instance, text="Parsing the HTML")
-        third_label.place(x=100, y=250)
-        time.sleep(2)
-        soup = BeautifulSoup(response.html.html, "html.parser")
-        attributes_list = []
-        for element in soup.find_all(True):  # True finds all tags
-            tag_attributes = {attr: value for attr, value in element.attrs.items()}
-            attributes_list.append({
-                'tag': element.name,
-                'attributes': tag_attributes
-            })
+        logger.info("Parsing the HTML from response ")
+        try:
+            third_label = tk.Label(tk_instance, text="Parsing the HTML...")
+            third_label.place(x=100, y=250)
+            time.sleep(2)
+            soup = BeautifulSoup(response.html.html, "html.parser")
+            attributes_list = []
+            for element in soup.find_all(True):  # True finds all tags
+                tag_attributes = {attr: value for attr, value in element.attrs.items()}
+                attributes_list.append({
+                    'tag': element.name,
+                    'attributes': tag_attributes
+                })
 
-        # Print the extracted attributes
-        self.attributes = attributes_list
-        third_label.destroy()
+            self.attributes = attributes_list
+            third_label.destroy()
+        except Exception as e:
+            logger.error("Parser html failed with an error {}".format(e))
 
     def find_key_value_pair(self, tk_instance) -> [list | None]:
-        #pdb.set_trace()
         try:
             fourth_label = tk.Label(tk_instance, text="Gathering all Attributes..")
             fourth_label.place(x=100, y=250)
