@@ -3,7 +3,7 @@
 
 ![](https://github.com/itssuryaprasanth/Finder/UI/MainScreen.png)
 
-![](https://img.shields.io/github/stars/Finder/editor.md.svg) ![](https://img.shields.io/github/forks/Finder/editor.md.svg) ![](https://img.shields.io/github/tag/Finder/editor.md.svg) ![](https://img.shields.io/github/release/Finder/editor.md.svg) ![](https://img.shields.io/github/issues/Finder/editor.md.svg)
+![](https://img.shields.io/github/stars/itssuryaprasanth/editor.md.svg) ![](https://img.shields.io/github/forks/Finder/editor.md.svg) ![](https://img.shields.io/github/tag/Finder/editor.md.svg) ![](https://img.shields.io/github/release/Finder/editor.md.svg) ![](https://img.shields.io/github/issues/Finder/editor.md.svg)
 
 
 **Table of Contents**
